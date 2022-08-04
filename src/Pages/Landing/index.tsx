@@ -13,29 +13,56 @@ import { Header } from "../../Components/Header";
 export default function Landing(){
 	
 	const [modalState, setModalState] = useState<ModalStates>('hidden')
+	
 	function toggleModal(){ M.toggleModal(modalState, setModalState) }
-	function changeText(e: HTMLButtonElement, text: string){
-		e.textContent = text
+
+	function changeText(e: HTMLElement, text: string){
+		let firstChild = e.firstChild as HTMLElement
+		console.log(firstChild.tagName);
+		
+		if(firstChild.tagName === 'SPAN'){
+			//Trocar o texto após 125ms, para entrar na transição
+			setTimeout(() => {
+				firstChild.textContent = text
+			}, 125);
+
+			//Ativar a classe que aplica a animação
+			firstChild.classList.toggle('text-animated--change')
+			
+			//Remover a classe de animação apos o fim da animação
+			setTimeout(() => {
+				firstChild.classList.toggle('text-animated--change')
+			}, 250);
+		} else {
+			console.warn('Elemento SPAN não encontrado dentro de ' + e.nodeName)
+			
+		}
 	}
 
 	return(
 		<S.Container>
-			<M.ModalBackdrop
+			<M.Backdrop
 				state={modalState}
 				onClick={(e)=> { if(M.ClickedBackdrop(e.target as HTMLElement)) toggleModal() }}
 				className='backdrop'
 			>
 				<M.Modal state={modalState}>
-					<M.ModalHeader>
-						<M.ModalTitle>
-							Register new user
-						</M.ModalTitle>
-						<M.ModalClose  
+					<M.Header>
+						<M.Title
+							onMouseOut={e=> changeText(e.target as HTMLButtonElement,'ようこそ！')}
+							onMouseOver={e=> changeText(e.target as HTMLButtonElement,'Welcome!')}
+						>
+							<span>ようこそ！</span>
+						</M.Title>
+						<M.Close  
 							onClick={()=>toggleModal()}
 							/>
-					</M.ModalHeader>
+					</M.Header>
+					<M.Body>
+						<M.Subtitle>Register new user</M.Subtitle>
+					</M.Body>
 				</M.Modal>
-			</M.ModalBackdrop>
+			</M.Backdrop>
 
 			<Header>
 				<Title>
@@ -59,19 +86,20 @@ export default function Landing(){
 					<Button
 						btnType="primary"
 						size='md'
+						className="text-animated"
+						onClick={()=> toggleModal()}
 						onMouseOver={e=> changeText(e.target as HTMLButtonElement,'とうろくする')}
 						onMouseOut={e=> changeText(e.target as HTMLButtonElement,'Register')}
-						onClick={()=> toggleModal()}
 					>
-						Register
+						<span>Register</span>
 					</Button>
 					<Button
 						btnType="outline"
 						size='sm'
 						onMouseOver={e=> changeText(e.target as HTMLButtonElement,'ログイン')}
 						onMouseOut={e=> changeText(e.target as HTMLButtonElement,'Login')}
-						>
-					Login
+					>
+						<span>Login</span>
 					</Button>
 				</S.ButtonContainer>
 			</S.Main>

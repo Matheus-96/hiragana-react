@@ -58,7 +58,7 @@ export const Modal = styled.div<IModal>`
 	
 `
 
-export const ModalBackdrop = styled.div<IModal>`
+export const Backdrop = styled.div<IModal>`
 	position: fixed;
 	width: 100vw;
 	height: 100vh;
@@ -88,23 +88,36 @@ ${props => {
 	}}
 `
 
-export const ModalHeader = styled.div`
+export const Header = styled.div`
 	padding: 0 1rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	color: ${props => props.theme['text-primary']}
+	color: ${props => props.theme['text-primary']};
 `
 
-export const ModalTitle = styled.h3`
+export const Title = styled.h3`
 	font-size: 2rem;
+	line-height: 2.2rem;
 	font-weight: bold;
 `
 
-export const ModalClose = styled.div`
+export const Close = styled.div`
 	&::before{
 		font-size: 24px;
 		content: "✖";
 		cursor: pointer;
 	}
+`
+export const Body = styled.div`
+display: flex;
+flex-direction: column;
+padding: 1rem 0;
+`
+
+export const Subtitle = styled.h2`
+font-weight: bold;
+font-size: 1.2rem;
+text-align: center;
+color: ${props => props.theme['text-primary']};
 `

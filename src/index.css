@@ -154,3 +154,19 @@ table {
         font-size: 12px;
     }
 }
+
+.text-animated--change {
+    animation: colorChange 250ms both;
+}
+
+@keyframes colorChange {
+    0% {
+        color: inherit;
+    }
+    50% {
+        color: transparent;
+    }
+    100% {
+        color: inherit;
+    }
+}

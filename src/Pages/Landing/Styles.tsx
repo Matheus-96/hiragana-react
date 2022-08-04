@@ -32,6 +32,7 @@ padding: 1rem 0;
 `
 export const ButtonContainer = styled.div`
 	display: flex;
+	color: white;
 	justify-content: space-between;
 	padding:1rem 0;
 	@media screen and (max-width:768px){
