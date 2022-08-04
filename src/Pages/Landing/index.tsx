@@ -16,26 +16,30 @@ export default function Landing(){
 	
 	function toggleModal(){ M.toggleModal(modalState, setModalState) }
 
-	function changeText(e: HTMLElement, text: string){
-		let firstChild = e.firstChild as HTMLElement
-		console.log(firstChild.tagName);
-		
-		if(firstChild.tagName === 'SPAN'){
-			//Trocar o texto após 125ms, para entrar na transição
-			setTimeout(() => {
-				firstChild.textContent = text
-			}, 125);
+	function changeText(e: React.MouseEvent<HTMLElement>, text: string){
+		e.stopPropagation()
+		let target = e.currentTarget as HTMLElement
+		console.log(target.tagName);
+		if(target.tagName !== 'SPAN'){
+			let lastChild = target.lastElementChild as HTMLElement
+			
+			if(lastChild.tagName === 'SPAN'){
+				//Trocar o texto após 125ms, para entrar na transição
+				setTimeout(() => {
+					lastChild.textContent = text
+				}, 125);
 
-			//Ativar a classe que aplica a animação
-			firstChild.classList.toggle('text-animated--change')
-			
-			//Remover a classe de animação apos o fim da animação
-			setTimeout(() => {
-				firstChild.classList.toggle('text-animated--change')
-			}, 250);
-		} else {
-			console.warn('Elemento SPAN não encontrado dentro de ' + e.nodeName)
-			
+				//Ativar a classe que aplica a animação
+				lastChild.classList.toggle('text-animated--change')
+				
+				//Remover a classe de animação apos o fim da animação
+				setTimeout(() => {
+					lastChild.classList.toggle('text-animated--change')
+				}, 250);
+			} else {
+				console.warn('Elemento SPAN não encontrado dentro de ' + target.nodeName)
+				
+			}
 		}
 	}
 
@@ -49,8 +53,8 @@ export default function Landing(){
 				<M.Modal state={modalState}>
 					<M.Header>
 						<M.Title
-							onMouseOut={e=> changeText(e.target as HTMLButtonElement,'ようこそ！')}
-							onMouseOver={e=> changeText(e.target as HTMLButtonElement,'Welcome!')}
+							onMouseOut={e=> changeText(e,'ようこそ！')}
+							onMouseOver={e=> changeText(e,'Welcome!')}
 						>
 							<span>ようこそ！</span>
 						</M.Title>
@@ -88,16 +92,16 @@ export default function Landing(){
 						size='md'
 						className="text-animated"
 						onClick={()=> toggleModal()}
-						onMouseOver={e=> changeText(e.target as HTMLButtonElement,'とうろくする')}
-						onMouseOut={e=> changeText(e.target as HTMLButtonElement,'Register')}
+						onMouseOver={e=> changeText(e,'とうろくする')}
+						onMouseOut={e=> changeText(e,'Register')}
 					>
 						<span>Register</span>
 					</Button>
 					<Button
 						btnType="outline"
 						size='sm'
-						onMouseOver={e=> changeText(e.target as HTMLButtonElement,'ログイン')}
-						onMouseOut={e=> changeText(e.target as HTMLButtonElement,'Login')}
+						onMouseOver={e=> changeText(e,'ログイン')}
+						onMouseOut={e=> changeText(e,'Login')}
 					>
 						<span>Login</span>
 					</Button>
