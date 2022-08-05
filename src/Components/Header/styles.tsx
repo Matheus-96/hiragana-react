@@ -62,8 +62,8 @@ export const UserActions = styled.div<UserAction>`
 		right: 0%;
 		width: 150%;
 		padding: .5rem;
-		
 		border-radius: 10px 0 10px 10px;
+		box-shadow: 2px 2px 10px rgba(0,0,0,.25);
 		background-color: ${props => props.theme['background-light']};
 		color: ${props=> props.theme['text-primary']};
 		transition: opacity .25s, transform .25s;

@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { Button } from "../../Components/Buttons";
 import { Paragraph } from "../../Components/Paragraph";
 import { Subtitle } from "../../Components/Subtitle";
@@ -5,6 +6,7 @@ import { Title } from "../../Components/Title";
 import * as S from './Styles'
 import {ReactComponent as GithubIcon} from '../../assets/images/github.svg'
 import * as M from '../../Components/Modal'
+import {CustomInput, Validate} from '../../Components/Input'
 import { useState } from "react";
 import { ModalStates } from "../../Components/Modal/interfaces";
 import { Header } from "../../Components/Header";
@@ -13,7 +15,9 @@ import { Header } from "../../Components/Header";
 export default function Landing(){
 	
 	const [modalState, setModalState] = useState<ModalStates>('hidden')
-	
+	const [email, setEmail] = useState('')
+	const [emailValid, setEmailValid] = useState(false)
+
 	function toggleModal(){ M.toggleModal(modalState, setModalState) }
 
 	function changeText(e: React.MouseEvent<HTMLElement>, text: string){
@@ -64,6 +68,14 @@ export default function Landing(){
 					</M.Header>
 					<M.Body>
 						<M.Subtitle>Register new user</M.Subtitle>
+						<CustomInput
+							type='email'
+							placeholder="name@email.com"
+							value={email}
+							className={`${emailValid? '':'error'}`}
+							onChange={(e)=>setEmail(e.target.value)}
+							onBlur={(e)=>setEmailValid(Validate(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, email))}
+						/>
 					</M.Body>
 				</M.Modal>
 			</M.Backdrop>
@@ -76,6 +88,7 @@ export default function Landing(){
 			</Header>
 			<S.Main>
 				<S.Article>
+					
 					<Subtitle>
 						Did you know that
 					</Subtitle>
