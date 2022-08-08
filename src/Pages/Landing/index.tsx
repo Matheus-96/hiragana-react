@@ -6,7 +6,8 @@ import { Title } from "../../Components/Title";
 import * as S from './Styles'
 import {ReactComponent as GithubIcon} from '../../assets/images/github.svg'
 import * as M from '../../Components/Modal'
-import {CustomInput, Validate} from '../../Components/Input'
+import * as Inputs from '../../Components/Input'
+import * as V from '../../Components/Input/Validations'
 import { useState } from "react";
 import { ModalStates } from "../../Components/Modal/interfaces";
 import { Header } from "../../Components/Header";
@@ -16,7 +17,8 @@ export default function Landing(){
 	
 	const [modalState, setModalState] = useState<ModalStates>('hidden')
 	const [email, setEmail] = useState('')
-	const [emailValid, setEmailValid] = useState(false)
+	const [password, setPassword] = useState('')
+	const [emailValid, setEmailValid] = useState(true)
 
 	function toggleModal(){ M.toggleModal(modalState, setModalState) }
 
@@ -51,7 +53,6 @@ export default function Landing(){
 		<S.Container>
 			<M.Backdrop
 				state={modalState}
-				onClick={(e)=> { if(M.ClickedBackdrop(e.target as HTMLElement)) toggleModal() }}
 				className='backdrop'
 			>
 				<M.Modal state={modalState}>
@@ -68,14 +69,34 @@ export default function Landing(){
 					</M.Header>
 					<M.Body>
 						<M.Subtitle>Register new user</M.Subtitle>
-						<CustomInput
-							type='email'
-							placeholder="name@email.com"
-							value={email}
-							className={`${emailValid? '':'error'}`}
-							onChange={(e)=>setEmail(e.target.value)}
-							onBlur={(e)=>setEmailValid(Validate(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, email))}
-						/>
+						<Inputs.InputGroup>
+							<Inputs.CustomLabel htmlFor="email">E-mail</Inputs.CustomLabel>
+							<Inputs.CustomInput
+								type='email'
+								placeholder="name@email.com"
+								value={email}
+								id='email'
+								className={`${emailValid? '':'error'}`}
+								onChange={(e)=>setEmail(e.target.value)}
+								onBlur={(e)=>setEmailValid(V.Validate(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, email))}
+								/>
+								<Inputs.Hint className={`${emailValid ? '' : 'visible'}`}>Invalid e-mail address</Inputs.Hint>
+						</Inputs.InputGroup>
+						<Inputs.InputGroup>
+							<Inputs.CustomLabel htmlFor="password">Password</Inputs.CustomLabel>
+							<Inputs.CustomInput
+								type='password'
+								placeholder="password"
+								value={password}
+								id='password'
+								onChange={(e)=>setPassword(e.target.value)}
+								/>
+						</Inputs.InputGroup>
+						<Inputs.InputGroup>
+							<Button btnType="primary">
+								Register
+							</Button>
+						</Inputs.InputGroup>
 					</M.Body>
 				</M.Modal>
 			</M.Backdrop>
