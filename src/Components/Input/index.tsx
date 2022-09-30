@@ -46,3 +46,18 @@ export const Hint = styled.span`
 		opacity: 1;
 	}
 `
+
+export const Requirement = styled.p<{valid?: boolean}>`
+	padding-left: 1rem;
+	line-height: 1.4rem;
+	text-decoration: ${props => props.valid ? 'line-through' : 'none'} grey;
+	&:before{
+		display: inline-block;
+		content: '${props => props.valid ? "✔" : "✖"}';
+		padding-right: .5rem;
+		text-align: center;
+		text-decoration: none;
+		color: ${props => props.valid ? 'green' : 'grey'};
+	}
+
+`

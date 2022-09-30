@@ -6,7 +6,7 @@ import { useState } from "react"
 
 
 
-export const Header = ({children}: {children: ReactNode})=> {
+export const Header = ({children, user}: {children: ReactNode, user?: string})=> {
 	
 	const [menuState, setMenuState] = useState<MenuStates>('hidden')
 	const handleClickOutside = (event:Event) => {
@@ -35,9 +35,14 @@ export const Header = ({children}: {children: ReactNode})=> {
 				className="dropdown"
 			>
 				<User className="userIcon" />
-				<h4 className="username">Victor</h4>
+				<h4 className="username">My</h4>
 				<div className="menu">
+					{user &&
 						<LinkItem to={'/'}>Logout</LinkItem>
+					}
+					{!user &&
+						<LinkItem to={'/login'}>Login</LinkItem>
+					}
 				</div>
 
 

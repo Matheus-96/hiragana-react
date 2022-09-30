@@ -6,3 +6,4 @@ export interface IModal {
 
 export type ModalStates = 'hidden' | 'open' | 'closing'
 
+export type FlexDirection = 'column' | 'row'

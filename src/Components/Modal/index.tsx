@@ -1,8 +1,8 @@
 import { SetStateAction } from "react";
 import styled from "styled-components";
-import { IModal, ModalStates } from "./interfaces";
+import { FlexDirection, IModal, ModalStates } from "./interfaces";
 
-export function toggleModal(modalState: ModalStates, setModalState: React.Dispatch<SetStateAction<ModalStates>>){
+export function toggleVisibility(modalState: ModalStates, setModalState: React.Dispatch<SetStateAction<ModalStates>>){
 	switch(modalState){
 		case 'hidden':
 			setModalState('open')
@@ -11,6 +11,22 @@ export function toggleModal(modalState: ModalStates, setModalState: React.Dispat
 		case 'open': 
 			setModalState('closing')
 			setTimeout(()=> setModalState('hidden'), 500)
+			break;
+	}
+}
+
+export function visibilityOutIn(modalState: ModalStates, setModalState: React.Dispatch<SetStateAction<ModalStates>>){
+	console.log(modalState);
+	
+	switch(modalState){
+		case 'open': 
+			setModalState('closing')
+			setTimeout(()=> {
+				setModalState('hidden')
+				setTimeout(() => {
+					setModalState('open')
+				}, 100);
+			}, 500)
 			break;
 	}
 }
@@ -31,7 +47,6 @@ export const Modal = styled.div<IModal>`
 	padding: 1rem;
 	border-radius: 10px;
 	filter: drop-shadow(5px 5px 15px rgba(0, 0, 0, 0.2));
-	min-height: 300px;
 	z-index: 10;
 	transition: transform .5s, opacity .5s;
 	@media screen and (max-width: 768px){
@@ -113,6 +128,7 @@ export const Body = styled.div`
 display: flex;
 flex-direction: column;
 padding: 1rem 0;
+height: 100%;
 `
 
 export const Subtitle = styled.h2`
@@ -120,4 +136,38 @@ font-weight: bold;
 font-size: 1.2rem;
 text-align: center;
 color: ${props => props.theme['text-primary']};
+`
+
+export const Container = styled.div<{direction: FlexDirection, state: ModalStates, center?: boolean}>`
+	transition: opacity .5s;
+
+	${props => {
+		if(props.state === 'hidden')
+			return `
+			visibility: hidden;
+			opacity: 0;
+			`
+		if(props.state === 'open')
+			return `
+				visibility: visible;
+				opacity: 1;
+			`
+		if(props.state === 'closing')
+			return `
+				opacity: 0;
+			`
+	}}
+
+	padding: 1rem;
+	display: flex;
+	flex-grow: 1;
+	justify-content: center;
+	flex-direction: ${props => props.direction};
+	align-items: ${props => props.center ? "center" : "unset"}
+`
+
+export const Img = styled.img`
+	margin: 0 auto;
+	width: 60px;
+	height: auto;
 `
